@@ -1,0 +1,205 @@
+version: "3.8"
+
+services:
+  # Main Pharmacy Inventory System
+  atinka-meds:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atinka-meds-pharmacy
+    image: atinka-meds:latest
+    restart: unless-stopped
+
+    # Interactive terminal for menu-driven interface
+    stdin_open: true
+    tty: true
+
+    # Environment variables
+    environment:
+      - JAVA_OPTS=-Xmx512m -Xms256m
+      - TZ=Africa/Accra
+      - PHARMACY_NAME=Atinka Meds
+      - PHARMACY_LOCATION=Adenta, Accra
+
+    # Volume mounts for data persistence
+    volumes:
+      - pharmacy_data:/app/data
+      - pharmacy_reports:/app/reports
+      - ./logs:/app/logs
+
+    # Network configuration
+    networks:
+      - pharmacy_network
+
+    # Labels for better organization
+    labels:
+      - "com.atinkameds.service=pharmacy-inventory"
+      - "com.atinkameds.version=1.0.0"
+      - "com.atinkameds.group=37"
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+        reservations:
+          memory: 256M
+          cpus: "0.25"
+
+  # Development/Testing container with additional tools
+  atinka-meds-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atinka-meds-dev
+    image: atinka-meds:dev
+    restart: "no"
+
+    # Interactive terminal
+    stdin_open: true
+    tty: true
+
+    # Development environment variables
+    environment:
+      - JAVA_OPTS=-Xmx1024m -Xms512m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - TZ=Africa/Accra
+      - PHARMACY_NAME=Atinka Meds (Development)
+      - PHARMACY_LOCATION=Adenta, Accra
+      - DEBUG_MODE=true
+
+    # Volume mounts for development
+    volumes:
+      - ./src:/app/src:ro
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - dev_cache:/app/.cache
+
+    # Port mapping for debugging
+    ports:
+      - "5005:5005" # Java debugger port
+      - "8080:8080" # Future web interface port
+
+    # Network configuration
+    networks:
+      - pharmacy_network
+
+    # Override command for development
+    command: >
+      sh -c "
+        echo 'Starting Atinka Meds Pharmacy System in Development Mode...' &&
+        echo 'Debug port: 5005' &&
+        echo 'Data directory: /app/data' &&
+        echo 'Reports directory: /app/reports' &&
+        echo '=================================================' &&
+        java -cp build app.Main
+      "
+
+    # Labels
+    labels:
+      - "com.atinkameds.service=pharmacy-inventory-dev"
+      - "com.atinkameds.version=1.0.0"
+      - "com.atinkameds.group=37"
+      - "com.atinkameds.environment=development"
+
+  # Database service (for future enhancements)
+  pharmacy-db:
+    image: postgres:13-alpine
+    container_name: atinka-meds-db
+    restart: unless-stopped
+
+    environment:
+      - POSTGRES_DB=atinka_pharmacy
+      - POSTGRES_USER=pharmacist
+      - POSTGRES_PASSWORD=secure_pharmacy_2025
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+
+    volumes:
+      - pharmacy_db_data:/var/lib/postgresql/data
+      - ./sql/init:/docker-entrypoint-initdb.d:ro
+
+    ports:
+      - "5432:5432"
+
+    networks:
+      - pharmacy_network
+
+    # Health check
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pharmacist -d atinka_pharmacy"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+    labels:
+      - "com.atinkameds.service=database"
+      - "com.atinkameds.version=1.0.0"
+      - "com.atinkameds.group=37"
+
+  # Backup service for data protection
+  backup-service:
+    image: alpine:latest
+    container_name: atinka-meds-backup
+    restart: "no"
+
+    environment:
+      - TZ=Africa/Accra
+
+    volumes:
+      - pharmacy_data:/backup/data:ro
+      - pharmacy_reports:/backup/reports:ro
+      - ./backups:/backup/output
+
+    networks:
+      - pharmacy_network
+
+    # Backup command
+    command: >
+      sh -c "
+        echo 'Creating backup of Atinka Meds data...' &&
+        cd /backup &&
+        tar -czf output/atinka_meds_backup_$$(date +%Y%m%d_%H%M%S).tar.gz data reports &&
+        echo 'Backup completed successfully!' &&
+        ls -la output/
+      "
+
+    labels:
+      - "com.atinkameds.service=backup"
+      - "com.atinkameds.version=1.0.0"
+      - "com.atinkameds.group=37"
+
+# Named volumes for data persistence
+volumes:
+  pharmacy_data:
+    driver: local
+    labels:
+      - "com.atinkameds.volume=data"
+      - "com.atinkameds.description=Pharmacy inventory data storage"
+
+  pharmacy_reports:
+    driver: local
+    labels:
+      - "com.atinkameds.volume=reports"
+      - "com.atinkameds.description=Generated reports storage"
+
+  pharmacy_db_data:
+    driver: local
+    labels:
+      - "com.atinkameds.volume=database"
+      - "com.atinkameds.description=PostgreSQL database storage"
+
+  dev_cache:
+    driver: local
+    labels:
+      - "com.atinkameds.volume=cache"
+      - "com.atinkameds.description=Development cache storage"
+
+# Network configuration
+networks:
+  pharmacy_network:
+    driver: bridge
+    labels:
+      - "com.atinkameds.network=main"
+      - "com.atinkameds.description=Atinka Meds internal network"
