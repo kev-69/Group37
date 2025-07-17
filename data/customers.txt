@@ -1,0 +1,4 @@
+# Format: customerId|name|contact|transactionIds (comma-separated)
+C001|Kofi Asante|0551234567|T001,T004
+C002|Ama Owusu|0249876543|T002
+C003|Yaw Mensah|0508883344|T003,T005
