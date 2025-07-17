@@ -1,0 +1,6 @@
+# Format: supplierId|name|location|deliveryTime (in days)
+S001|MedDirect|Accra|2
+S002|HealthPlus|Tema|3
+S003|PharmaDepot|Kumasi|4
+S004|QuickMeds|Accra|1
+S005|GlobalPharma|Takoradi|5
