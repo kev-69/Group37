@@ -1,0 +1,109 @@
+# Docker ignore file for Atinka Meds Pharmacy System
+# Exclude unnecessary files from Docker build context
+
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# Build outputs
+build/
+target/
+*.class
+*.jar
+*.war
+
+# Logs
+*.log
+logs/
+log/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*.old
+backups/
+
+# Documentation drafts
+*.draft.md
+docs/drafts/
+
+# Test files
+test/
+tests/
+*test*
+*Test*
+
+# Node modules (if any future web interface)
+node_modules/
+npm-debug.log*
+
+# Python cache (if any scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Docker files themselves (avoid recursion)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache directories
+.cache/
+.npm/
+.yarn/
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Misc
+*.tgz
+*.tar.gz
