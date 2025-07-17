@@ -1,0 +1,6 @@
+# Format: drugCode|name|suppliers (comma-separated)|expirationDate (YYYY-MM-DD)|price|stockLevel
+D001|Paracetamol|S001,S002|2025-12-31|2.5|120
+D002|Amoxicillin|S002|2025-10-15|6.0|80
+D003|Ibuprofen|S001,S003|2026-01-20|4.2|100
+D004|Cetirizine|S004|2024-09-10|3.0|50
+D005|Metronidazole|S005|2026-05-01|5.5|30
