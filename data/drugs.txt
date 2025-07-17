@@ -1,13 +1,13 @@
 # Drug Code,Name,Price,Stock Level,Expiration Date,Min Threshold,Suppliers
-P001,Paracetamol 500mg,2.50,150,2025-12-31,20,PharmaCorp,MediSupply
-A001,Amoxicillin 250mg,5.75,45,2025-06-15,15,PharmaCorp
-I001,Ibuprofen 400mg,3.25,75,2024-03-30,25,MediSupply,HealthDist
-V001,Vitamin C 1000mg,8.90,200,2026-01-15,30,VitaLab
-C001,Cough Syrup 100ml,12.50,8,2025-08-20,10,PharmaCorp
-M001,Metformin 500mg,4.20,95,2026-03-10,25,DiabCare
-L001,Losartan 50mg,6.80,42,2025-11-22,20,CardioMed
+P001,Paracetamol 500mg,2.5,150,2025-12-31,20,PharmaCorp,MediSupply
 O001,Omeprazole 20mg,7.25,18,2025-09-14,15,GastroLab
-D001,Diclofenac Gel 30g,9.15,67,2026-02-18,12,TopicalCare
-B001,Bandages Pack,3.80,85,2027-01-01,25,MedSupplies
+M001,Metformin 500mg,4.2,95,2026-03-10,25,DiabCare
+L001,Losartan 50mg,6.8,42,2025-11-22,20,CardioMed
+I001,Ibuprofen 400mg,3.25,75,2024-03-30,25,MediSupply,HealthDist
 H001,Hand Sanitizer 250ml,1.95,220,2026-05-30,50,HygieneFirst
-T001,Thermometer Digital,15.50,12,2028-12-31,5,MedDevices
+D001,Diclofenac Gel 30g,9.15,67,2026-02-18,12,TopicalCare
+C001,Cough Syrup 100ml,12.5,8,2025-08-20,10,PharmaCorp
+B001,Bandages Pack,3.8,85,2027-01-01,25,MedSupplies
+A001,Amoxicillin 250mg,5.75,45,2025-06-15,15,PharmaCorp
+V001,Vitamin C 1000mg,8.9,200,2026-01-15,30,VitaLab
+T001,Thermometer Digital,15.5,12,2028-12-31,5,MedDevices
