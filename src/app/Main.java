@@ -1,5 +1,3 @@
-package app;
-
 import models.Drug;
 import services.DrugService;
 import utils.FileUtils;
